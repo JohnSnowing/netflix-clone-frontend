@@ -13,12 +13,17 @@ const ListItem = ({ index, item }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [movie, setMovie] = useState({});
 
+    console.log("|efds", JSON.parse(localStorage.getItem("user")).accessToken);
+
     useEffect(() => {
         const getMovie = async () => {
             try {
                 const res = await axios.get("/movies/find/" + item, {
                     headers: {
-                        token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNmFlMmUwNDdlODAyNmVhYzRlMDE4OSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MTUwNjU2MSwiZXhwIjoxNjUxOTM4NTYxfQ.vA3yyVGNeVNVhvfIj1UoP5Hdcum0QtlAuGH3yha7ab4",
+                        token:
+                            "Bearer " +
+                            JSON.parse(localStorage.getItem("user"))
+                                .accessToken,
                     },
                 });
 
@@ -39,7 +44,7 @@ const ListItem = ({ index, item }) => {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                <img src={movie.img} alt="item-sample" />
+                <img src={movie?.img} alt="item-sample" />
 
                 {isHovered && (
                     <>

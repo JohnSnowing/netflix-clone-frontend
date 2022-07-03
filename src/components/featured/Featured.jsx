@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./featured.scss";
 
-const Featured = ({ type }) => {
+const Featured = ({ type, setGenre }) => {
     const [content, setContent] = useState({});
 
     useEffect(() => {
@@ -11,7 +11,10 @@ const Featured = ({ type }) => {
             try {
                 const res = await axios.get(`/movies/random?type=${type}`, {
                     headers: {
-                        token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNmFlMmUwNDdlODAyNmVhYzRlMDE4OSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MTUwNjU2MSwiZXhwIjoxNjUxOTM4NTYxfQ.vA3yyVGNeVNVhvfIj1UoP5Hdcum0QtlAuGH3yha7ab4",
+                        token:
+                            "Bearer " +
+                            JSON.parse(localStorage.getItem("user"))
+                                .accessToken,
                     },
                 });
 
@@ -28,7 +31,13 @@ const Featured = ({ type }) => {
             {type && (
                 <div className="category">
                     <span>{type === "movie" ? "Movies" : "Series"}</span>
-                    <select name="genre" id="genre">
+                    <select
+                        name="genre"
+                        id="genre"
+                        onChange={(e) => {
+                            setGenre(e.target.value);
+                        }}
+                    >
                         <option>Genre</option>
                         <option value="adventure">Adventure</option>
                         <option value="comedy">Comedy</option>
@@ -46,9 +55,9 @@ const Featured = ({ type }) => {
                     </select>
                 </div>
             )}
-            <img src={content.img} alt="image-title" />
+            <img src={content.img} alt="title" />
             <div className="info">
-                <img src={content.imgTitle} alt="" />
+                <img src={content.imgTitle} alt="content" />
                 <span className="desc">{content.desc}</span>
                 <div className="buttons">
                     <button className="play">
