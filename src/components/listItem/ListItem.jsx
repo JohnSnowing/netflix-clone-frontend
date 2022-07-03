@@ -13,8 +13,6 @@ const ListItem = ({ index, item }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [movie, setMovie] = useState({});
 
-    console.log("|efds", JSON.parse(localStorage.getItem("user")).accessToken);
-
     useEffect(() => {
         const getMovie = async () => {
             try {
